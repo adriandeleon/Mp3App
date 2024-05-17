@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS SONGS  (
+    id BIGINT AUTO_INCREMENT,
+    artist VARCHAR(255),
+    years VARCHAR(255),
+    album VARCHAR(255),
+    title VARCHAR(255)
+    );
+
+DELETE FROM SONGS;
+
+
