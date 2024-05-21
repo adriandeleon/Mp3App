@@ -75,6 +75,7 @@ public class Main {
         //Create a new Jetty HTTP Server and serve our page.
         final Server server = new Server(8080);
         final ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+
         context.setContextPath("/");
         context.setBaseResourceAsString(System.getProperty("java.io.tmpdir"));
 
