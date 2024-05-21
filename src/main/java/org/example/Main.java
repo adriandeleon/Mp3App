@@ -18,13 +18,11 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
         if (args.length != 1) {
             throw new IllegalArgumentException("You need to specify a valid mp3 directory.");
         }
