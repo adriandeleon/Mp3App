@@ -13,7 +13,7 @@ public class SongServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final StringBuilder builder = new StringBuilder();
 
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:~/mydatabase")) {
+        try (Connection conn = DriverManager.getConnection(GlobalConstants.JDBC_CONNECTION)) {
             final Statement statement = conn.createStatement();
             final ResultSet resultSet = statement.executeQuery("SELECT * FROM SONGS");
 
@@ -29,8 +29,37 @@ public class SongServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        final String string = "<html><h1>Your Songs</h1><table><tr><th> Year </th><th> Artist </th><th> Album </th><th> Title </th></tr>" + builder + "</table></html>";
-
-        resp.getWriter().write(string);
+        // Update HTML with Bootstrap, maybe.
+        final String htmlString = """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Bootstrap 5 Example</title>
+                    <!-- Bootstrap CSS -->
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+                </head>
+                <body>
+                  <div class="container mt-5">
+                        <h2 class="mb-4">Your songs</h2>
+                        <table  class="table table-striped table-hover table-bordered">
+                        <thead class="table-dark">
+                        <tr>
+                           <th scope="col"> Year </th>
+                           <th scope="col"> Artist </th>
+                           <th scope="col"> Album </th>
+                           <th scope="col"> Title </th>
+                        </tr>
+                """
+                + builder +
+                """
+                        </table>
+                        <!-- Bootstrap JS and dependencies -->
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+                        </body>
+                        </html>
+                        """;
+        resp.getWriter().write(htmlString);
     }
 }

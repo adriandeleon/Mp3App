@@ -23,6 +23,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+        // We need a parameter, the mp3 folder.
         if (args.length != 1) {
             throw new IllegalArgumentException("You need to specify a valid mp3 directory.");
         }
@@ -56,15 +57,15 @@ public class Main {
         }).toList();
 
         //Create a connection to our H2 database and insert all the songs.
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:~/mydatabase;AUTO_SERVER=TRUE;INIT=runscript from './create.sql'")) {
+        try (Connection conn = DriverManager.getConnection(GlobalConstants.JDBC_CONNECTION + ";AUTO_SERVER=TRUE;INIT=runscript from './create.sql'")) {
 
             final PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO SONGS (artist, years, album, title) VALUES (?, ?, ?, ?);");
 
             for (Song song : songs) {
-                preparedStatement.setString(1, song.getArtist());
-                preparedStatement.setString(2, song.getYear());
-                preparedStatement.setString(3, song.getAlbum());
-                preparedStatement.setString(4, song.getTitle());
+                preparedStatement.setString(1, song.artist());
+                preparedStatement.setString(2, song.year());
+                preparedStatement.setString(3, song.album());
+                preparedStatement.setString(4, song.title());
                 preparedStatement.addBatch();
             }
 
