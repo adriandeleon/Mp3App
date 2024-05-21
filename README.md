@@ -4,7 +4,7 @@ MP3App is a simple coding exercise. It implements file reading, simple database 
 
 ## Description
 
-<description>
+description goes here.
 
 ## Table of Contents
 
