@@ -4,8 +4,8 @@ import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
 
 
 import java.awt.*;
@@ -78,7 +78,7 @@ public class Main {
         final Server server = new Server(8080);
         final ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
-        context.setResourceBase(System.getProperty("java.io.tmpdir"));
+        context.setBaseResourceAsString(System.getProperty("java.io.tmpdir"));
 
         server.setHandler(context);
 
