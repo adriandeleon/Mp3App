@@ -18,6 +18,7 @@ public class SongServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse httpServletResponse) throws IOException {
         final StringBuilder tableRowData = new StringBuilder();
+        String tableData = "";
 
         try (Connection conn = DriverManager.getConnection(GlobalConstants.JDBC_CONNECTION)) {
             final Statement statement = conn.createStatement();
@@ -41,6 +42,24 @@ public class SongServlet extends HttpServlet {
                         .append("<td>").append("<a href=\"" + albumUrl + "\"" + ">" + album + "</a>").append("</td>")
                         .append("<td>").append("<a href=\"" + songTitleUrl + "\"" + ">" + songTitle + "</a>").append("</td>")
                         .append("</tr>");
+
+                tableData = """
+                         <table class="table table-striped table-hover table-bordered">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th scope="col"> Year</th>
+                                    <th scope="col"> Artist</th>
+                                    <th scope="col"> Album</th>
+                                    <th scope="col"> Title</th>
+                                    <th scope="col"> Video</th>
+                                    <th scope="col"> Lyrics</th>
+                                </tr>
+                        """
+                        + tableRowData +
+                        """
+                                    </thead>
+                                    </table>
+                        """;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,13 +81,15 @@ public class SongServlet extends HttpServlet {
         try {
             // Convert URL to Path
             final Path filePath = Path.of(resource.toURI());
+
             // Read file content as String
             htmlString = Files.readString(filePath);
+
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
 
-        final String finalHtmlString = htmlString.replace("<!--content goes here.-->", tableRowData);
+        final String finalHtmlString = htmlString.replace("<!--content goes here.-->", tableData);
 
         httpServletResponse.getWriter().write(finalHtmlString);
     }
