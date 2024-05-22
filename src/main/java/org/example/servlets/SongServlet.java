@@ -47,10 +47,10 @@ public class SongServlet extends HttpServlet {
         }
 
         // Assuming your file is located in the src/main/resources folder.
-        String fileName = "templates/songs.html";
+        final String fileName = "templates/songs.html";
 
         // Get the URL of the file
-        URL resource = SongServlet.class.getClassLoader().getResource(fileName);
+        final URL resource = SongServlet.class.getClassLoader().getResource(fileName);
 
         if (resource == null) {
             System.out.println("File not found!");
@@ -61,7 +61,7 @@ public class SongServlet extends HttpServlet {
         String htmlString = "";
         try {
             // Convert URL to Path
-            Path filePath = Path.of(resource.toURI());
+            final Path filePath = Path.of(resource.toURI());
             // Read file content as String
             htmlString = Files.readString(filePath);
         } catch (IOException | URISyntaxException e) {
