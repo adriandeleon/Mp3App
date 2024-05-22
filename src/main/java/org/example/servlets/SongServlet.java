@@ -3,6 +3,7 @@ package org.example.servlets;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.example.GlobalConstants;
 
 import java.io.IOException;
@@ -29,17 +30,16 @@ public class SongServlet extends HttpServlet {
                 final String album = resultSet.getString("album");
                 final String songTitle = resultSet.getString("title");
 
-                final String yearUrl  = "https://en.wikipedia.org/wiki/" + year + "_in_music";
+                final String yearUrl = "https://en.wikipedia.org/wiki/" + year + "_in_music";
                 final String artistUrl = "https://www.last.fm/music/" + artist;
                 final String albumUrl = artistUrl + "/" + album;
                 final String songTitleUrl = albumUrl + "/" + songTitle;
 
-
                 tableRowData.append("<tr class=\"table\">")
-                        .append("<td>").append("<a href=\""+  yearUrl + "\"" + ">" + year +  "</a>").append("</td>")
-                        .append("<td>").append("<a href=\""+  artistUrl + "\"" + ">" + artist +  "</a>").append("</td>")
-                        .append("<td>").append("<a href=\""+  albumUrl + "\"" + ">" + album +  "</a>").append("</td>")
-                        .append("<td>").append("<a href=\""+  songTitleUrl + "\"" + ">" + songTitle +  "</a>").append("</td>")
+                        .append("<td>").append("<a href=\"" + yearUrl + "\"" + ">" + year + "</a>").append("</td>")
+                        .append("<td>").append("<a href=\"" + artistUrl + "\"" + ">" + artist + "</a>").append("</td>")
+                        .append("<td>").append("<a href=\"" + albumUrl + "\"" + ">" + album + "</a>").append("</td>")
+                        .append("<td>").append("<a href=\"" + songTitleUrl + "\"" + ">" + songTitle + "</a>").append("</td>")
                         .append("</tr>");
             }
         } catch (SQLException e) {
