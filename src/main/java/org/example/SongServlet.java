@@ -5,6 +5,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 
 public class SongServlet extends HttpServlet {
@@ -29,37 +33,30 @@ public class SongServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        // Update HTML with Bootstrap, maybe.
-        final String htmlString = """
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Bootstrap 5 Example</title>
-                    <!-- Bootstrap CSS -->
-                    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
-                </head>
-                <body>
-                  <div class="container mt-5">
-                        <h2 class="mb-4">Your songs</h2>
-                        <table  class="table table-striped table-hover table-bordered">
-                        <thead class="table-dark">
-                        <tr>
-                           <th scope="col"> Year </th>
-                           <th scope="col"> Artist </th>
-                           <th scope="col"> Album </th>
-                           <th scope="col"> Title </th>
-                        </tr>
-                """
-                + builder +
-                """
-                        </table>
-                        <!-- Bootstrap JS and dependencies -->
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-                        </body>
-                        </html>
-                        """;
-        resp.getWriter().write(htmlString);
+        // Assuming your file is located in the src/main/resources folder
+        String fileName = "templates/songs.html";
+
+        // Get the URL of the file
+        URL resource = SongServlet.class.getClassLoader().getResource(fileName);
+
+        if (resource == null) {
+            System.out.println("File not found!");
+
+            return;
+        }
+
+        String htmlString = "";
+        try {
+            // Convert URL to Path
+            Path filePath = Path.of(resource.toURI());
+            // Read file content as String
+            htmlString = Files.readString(filePath);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        final String finalHtmlString = htmlString.replace("<!--content goes here.-->", builder);
+
+        resp.getWriter().write(finalHtmlString);
     }
 }
