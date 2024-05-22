@@ -33,7 +33,7 @@ public class SongServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        // Assuming your file is located in the src/main/resources folder
+        // Assuming your file is located in the src/main/resources folder.
         String fileName = "templates/songs.html";
 
         // Get the URL of the file

@@ -7,7 +7,6 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Server;
 
-
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
