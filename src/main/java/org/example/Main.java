@@ -7,7 +7,7 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Server;
 import org.example.records.SongRecord;
-import org.example.servlets.ButtonServlet;
+import org.example.servlets.ExcelButtonServlet;
 import org.example.servlets.SongServlet;
 
 import java.awt.*;
@@ -85,7 +85,7 @@ public class Main {
         server.setHandler(context);
 
         context.addServlet(SongServlet.class, "/songs");
-        context.addServlet(ButtonServlet.class, "/clicked");
+        context.addServlet(ExcelButtonServlet.class, "/clicked");
         server.start();
 
         //Load a browser with the web page.
