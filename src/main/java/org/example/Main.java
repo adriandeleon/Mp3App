@@ -6,6 +6,9 @@ import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Server;
+import org.example.records.SongRecord;
+import org.example.servlets.ButtonServlet;
+import org.example.servlets.SongServlet;
 
 import java.awt.*;
 import java.io.IOException;
@@ -43,12 +46,12 @@ public class Main {
         }
 
         //Create a list of songs with all the ID3 tag metadata.
-        final List<Song> songs = mp3Paths.stream().map(path -> {
+        final List<SongRecord> songs = mp3Paths.stream().map(path -> {
             try {
                 final Mp3File mp3file = new Mp3File(String.valueOf(path));
                 final ID3v2 id3 = mp3file.getId3v2Tag();
 
-                return new Song(id3.getArtist(), id3.getYear(), id3.getAlbum(), id3.getTitle());
+                return new SongRecord(id3.getArtist(), id3.getYear(), id3.getAlbum(), id3.getTitle());
 
             } catch (IOException | UnsupportedTagException | InvalidDataException e) {
                 throw new IllegalStateException(e);
@@ -60,11 +63,11 @@ public class Main {
 
             final PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO SONGS (artist, years, album, title) VALUES (?, ?, ?, ?);");
 
-            for (Song song : songs) {
-                preparedStatement.setString(1, song.artist());
-                preparedStatement.setString(2, song.year());
-                preparedStatement.setString(3, song.album());
-                preparedStatement.setString(4, song.title());
+            for (SongRecord songRecord : songs) {
+                preparedStatement.setString(1, songRecord.artist());
+                preparedStatement.setString(2, songRecord.year());
+                preparedStatement.setString(3, songRecord.album());
+                preparedStatement.setString(4, songRecord.title());
                 preparedStatement.addBatch();
             }
 
@@ -82,6 +85,7 @@ public class Main {
         server.setHandler(context);
 
         context.addServlet(SongServlet.class, "/songs");
+        context.addServlet(ButtonServlet.class, "/clicked");
         server.start();
 
         //Load a browser with the web page.
