@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.*;
 
+/// A servlet that generates an Excel file populated with data from a database query
+/// and serves it as a downloadable response to the client.
 public class ExcelButtonServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest httpServletRequest,
@@ -30,6 +32,14 @@ public class ExcelButtonServlet extends HttpServlet {
         }
     }
 
+    /// Generates an Excel file populated with data from the provided ResultSet and writes the file
+    /// to the HTTP response output stream for client download.
+    ///
+    /// @param httpServletResponse the HTTP response object to which the generated Excel file is written
+    /// @param resultSet the ResultSet containing data to be written into the Excel file
+    /// @return the HTTP response with the Excel file content
+    /// @throws IOException if an I/O error occurs during file writing
+    /// @throws SQLException if an error occurs while accessing the ResultSet
     protected HttpServletResponse createExcelFile(final HttpServletResponse httpServletResponse,
                                                   final ResultSet resultSet) throws IOException, SQLException {
         int currentRowIndex = 0;
@@ -61,6 +71,10 @@ public class ExcelButtonServlet extends HttpServlet {
         return httpServletResponse;
     }
 
+    /// Creates a header row in the given sheet at the specified row index with predefined column names.
+    ///
+    /// @param sheet the sheet where the header row will be created
+    /// @param rowIndex the index of the row where the header will be created
     private void createHeaderRow(final Sheet sheet, int rowIndex) {
         final Row headerRow = sheet.createRow(rowIndex);
 
@@ -72,6 +86,11 @@ public class ExcelButtonServlet extends HttpServlet {
         createCellWithValue(headerRow, 5, "Lyrics");
     }
 
+    /// Creates a cell at the specified index in the given row and sets its value.
+    ///
+    /// @param row the row in which the cell will be created
+    /// @param cellIndex the index at which the cell will be created
+    /// @param value the value to set within the created cell
     private void createCellWithValue(final Row row, int cellIndex, final String value) {
         final Cell cell = row.createCell(cellIndex);
         cell.setCellValue(value);

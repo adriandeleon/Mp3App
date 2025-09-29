@@ -13,6 +13,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.*;
 
+/// A servlet for handling HTTP GET requests and displaying a list of songs in an HTML table.
+/// This servlet connects to a database using JDBC, retrieves data from the SONGS table,
+/// and dynamically generates an HTML table with song-related details including year, artist, album, and title.
+/// The servlet also creates hyperlinks for each data column that link to relevant music-related URLs
+/// (e.g., Wikipedia for the year, Last.fm for artists, albums, and songs).
+/// The table is embedded into an HTML template, which is read from a file in the application's resources directory.
+/// Override Methods:
+/// - doGet: Handles GET requests, retrieves song data from the database, processes it, and renders it in the response.
+/// Exception Handling:
+/// - Catches and logs SQL-related exceptions while interacting with the database.
+/// - Handles potential I/O or URI resolution issues when reading the template file.
+/// External Dependencies:
+/// - This servlet depends on a database connection string defined in GlobalConstants.JDBC_CONNECTION.
+/// - The HTML template is located in the application's resources under the path "templates/songs.html".
 public class SongServlet extends HttpServlet {
 
     @Override
@@ -37,10 +51,10 @@ public class SongServlet extends HttpServlet {
                 final String songTitleUrl = albumUrl + "/" + songTitle;
 
                 tableRowData.append("<tr class=\"table\">")
-                        .append("<td>").append("<a href=\"" + yearUrl + "\"" + ">" + year + "</a>").append("</td>")
-                        .append("<td>").append("<a href=\"" + artistUrl + "\"" + ">" + artist + "</a>").append("</td>")
-                        .append("<td>").append("<a href=\"" + albumUrl + "\"" + ">" + album + "</a>").append("</td>")
-                        .append("<td>").append("<a href=\"" + songTitleUrl + "\"" + ">" + songTitle + "</a>").append("</td>")
+                        .append("<td>").append("<a href=\"").append(yearUrl).append("\"").append(">").append(year).append("</a>").append("</td>")
+                        .append("<td>").append("<a href=\"").append(artistUrl).append("\"").append(">").append(artist).append("</a>").append("</td>")
+                        .append("<td>").append("<a href=\"").append(albumUrl).append("\"").append(">").append(album).append("</a>").append("</td>")
+                        .append("<td>").append("<a href=\"").append(songTitleUrl).append("\"").append(">").append(songTitle).append("</a>").append("</td>")
                         .append("</tr>");
 
                 tableData = """

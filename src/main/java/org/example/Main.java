@@ -25,6 +25,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
         // We need a parameter, the mp3 folder.
         if (args.length != 1) {
             throw new IllegalArgumentException("You need to specify a valid mp3 directory.");
